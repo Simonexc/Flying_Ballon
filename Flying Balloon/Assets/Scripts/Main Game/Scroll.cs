@@ -10,11 +10,14 @@ public class Scroll : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rbGround = GetComponent<Rigidbody2D> ();
-		rbGround.velocity = new Vector2 (GameControl.scrollSpeed * scrollCoefficient, 0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (!GameControl.instance.gamePaused) {
+			rbGround.velocity = new Vector2 (GameControl.instance.scrollSpeed * scrollCoefficient, 0);
+		} else {
+			rbGround.velocity = new Vector2 (0, 0);
+		}
 	}
 }

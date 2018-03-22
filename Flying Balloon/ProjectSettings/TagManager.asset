@@ -44,3 +44,9 @@ TagManager:
   - name: Ground
     uniqueID: 1031337079
     locked: 0
+  - name: Player
+    uniqueID: 963720153
+    locked: 0
+  - name: Clouds Top
+    uniqueID: 3696705533
+    locked: 0
