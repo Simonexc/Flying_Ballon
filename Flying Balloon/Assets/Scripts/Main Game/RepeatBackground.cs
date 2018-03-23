@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class RepeatBackground : MonoBehaviour {
 
-	private BoxCollider2D groundCollider;
 	private float groundLength;
+
+	private BoxCollider2D groundCollider;
 
 	// Use this for initialization
 	void Start () {

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BalloonControl : MonoBehaviour {
 
-	public static BalloonControl instance;
-
 	public float thrust = 1.5f;
 	public float angleRange = 10;
 
@@ -13,6 +11,7 @@ public class BalloonControl : MonoBehaviour {
 	public Vector2 angularVelocityIncrease = new Vector2(20, 30);
 	[HideInInspector]
 	public Vector2 startPosition;
+
 	[HideInInspector]
 	public Rigidbody2D rbBalloon;
 
@@ -20,7 +19,6 @@ public class BalloonControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		instance = this;
 		startPosition = this.transform.position;
 		rbBalloon = GetComponent<Rigidbody2D> ();
 		freezeObject (true);
@@ -51,7 +49,7 @@ public class BalloonControl : MonoBehaviour {
 		rbBalloon.velocity = Vector2.zero;
 	}
 
-	public void rotate (float coefficient) {
+	public void rotate (float coefficient) { // simulate turbulence
 		if (coefficient == 0) {
 			if (Mathf.Abs( getAngle (transform.eulerAngles.z)) <= 1) {
 				rbBalloon.angularVelocity = 0;
@@ -85,4 +83,5 @@ public class BalloonControl : MonoBehaviour {
 			return angle - 360;
 		}
 	}
+
 }

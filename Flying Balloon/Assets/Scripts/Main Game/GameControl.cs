@@ -24,21 +24,25 @@ public class GameControl : MonoBehaviour {
 	public Text TapText;
 	public GameObject GameOverPanel;
 
-	private float activationPoint = 0f;
+	private float activationPoint = 0;
+
+	private BalloonControl balloonScript;
 
 	// Use this for initialization
 	void Start () {
 		instance = this;
 		gamePaused = true;
+
 		GameOverPanel.SetActive (false);
 		TapText.gameObject.SetActive (true);
+		balloonScript = Balloon.GetComponent<BalloonControl> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!gamePaused) {
 			
-			SpriteRenderer sprite = Balloon.GetComponent<SpriteRenderer> ();
+			//SpriteRenderer sprite = Balloon.GetComponent<SpriteRenderer> ();
 			if (inClouds[0] || inClouds[1]) {
 				if (activationPoint == 0f) {
 					activationPoint = Balloon.transform.position.y - 0.02f; // set activation point
@@ -47,30 +51,17 @@ public class GameControl : MonoBehaviour {
 				float b = maxPoint - activationPoint;
 				// restrain values of a
 				float val = Mathf.Min (b, Mathf.Max (a, 0)) / b;
-				sprite.color = new Color (1f, 1f, 1f - val);
+				//sprite.color = new Color (1f, 1f, 1f - val);
 
-				BalloonControl.instance.rotate (val);
-				//Rigidbody2D rbBalloon = Balloon.GetComponent<Rigidbody2D> ();
-				/*
-				Debug.Log (Balloon.transform.rotation.z);
-				if (Balloon.transform.rotation.z > Mathf.Deg2Rad * 40f * val) {
-					Debug.Log (">");
-					rbBalloon.angularVelocity = val * Random.Range (-60f * val, 0f);
-				} else if (Balloon.transform.rotation.z < Mathf.Deg2Rad *  -40f * val) {
-					Debug.Log ("<");
-					rbBalloon.angularVelocity = val * Random.Range (0f, 60f * val);
-				} else {
-					rbBalloon.angularVelocity = Mathf.Max(-60f*val, Mathf.Min(rbBalloon.angularVelocity + val * Random.Range (-3f * val, 3f * val), -60f*val));
-				}
-				*/
+				balloonScript.rotate (val);
 
 
 				if (val == 1) {
 					stopGame ();
 				}
 			} else {
-				BalloonControl.instance.rotate (0);
-				sprite.color = Color.white;
+				balloonScript.rotate (0);
+				//sprite.color = Color.white;
 			}
 
 		}
@@ -84,7 +75,7 @@ public class GameControl : MonoBehaviour {
 
 	public void pauseGame () {
 		gamePaused = true;
-		BalloonControl.instance.freezeObject (true);
+		balloonScript.freezeObject (true);
 	}
 
 	public void beginGame () {
@@ -95,16 +86,16 @@ public class GameControl : MonoBehaviour {
 
 	public void resumeGame () {
 		gamePaused = false;
-		BalloonControl.instance.freezeObject (false);
+		balloonScript.freezeObject (false);
 	}
 
 	public void restartGame () {
 		gameEnded = false;
 		gameStarted = false;
-		gamePaused = true;
+
 		GameOverPanel.SetActive (false);
 		TapText.gameObject.SetActive (true);
-		BalloonControl.instance.bringItBack ();
+		balloonScript.bringItBack ();
 	}
 
 }
