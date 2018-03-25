@@ -23,6 +23,7 @@ public class GameControl : MonoBehaviour {
 	public GameObject Balloon;
 	public Text TapText;
 	public GameObject GameOverPanel;
+	public GameObject Enemy;
 
 	private float activationPoint = 0;
 

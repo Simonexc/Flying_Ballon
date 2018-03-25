@@ -6,12 +6,9 @@ public class RepeatBackground : MonoBehaviour {
 
 	private float groundLength;
 
-	private BoxCollider2D groundCollider;
-
 	// Use this for initialization
 	void Start () {
-		groundCollider = GetComponent<BoxCollider2D> ();
-		groundLength = groundCollider.size.x * transform.localScale.x;
+		groundLength = GetComponent<Renderer> ().bounds.size.x;
 	}
 	
 	// Update is called once per frame
@@ -25,4 +22,5 @@ public class RepeatBackground : MonoBehaviour {
 		Vector2 newPosition = new Vector2 (transform.position.x + groundLength * 2f, transform.position.y);
 		transform.position = newPosition;
 	}
+
 }
