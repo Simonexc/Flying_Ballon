@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour {
 
@@ -18,65 +19,85 @@ public class GameControl : MonoBehaviour {
 	public bool[] inClouds = new bool[2] {false, false};
 
 	public float scrollSpeed = -1.5f;
-	public float maxPoint = 4.6f;
+	public float cloudsHeight = 1;
+	public float slowDownDuration = 2; // in seconds
 
 	public GameObject Balloon;
 	public Text TapText;
 	public GameObject GameOverPanel;
-	public GameObject Enemy;
+
+	[HideInInspector]
+	public BalloonControl BalloonScript;
 
 	private float activationPoint = 0;
+	private float maxPoint = 0;
+	private float timePassed = -1;
 
-	private BalloonControl balloonScript;
+	private Transform TransformCheck;
 
-	// Use this for initialization
 	void Start () {
+		Debug.Log ("START");
 		instance = this;
 		gamePaused = true;
 
 		GameOverPanel.SetActive (false);
 		TapText.gameObject.SetActive (true);
-		balloonScript = Balloon.GetComponent<BalloonControl> ();
+		BalloonScript = Balloon.GetComponent<BalloonControl> ();
+		TransformCheck = BalloonScript.rbBalloon.gameObject.transform;
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (!gamePaused) {
 			
-			//SpriteRenderer sprite = Balloon.GetComponent<SpriteRenderer> ();
 			if (inClouds[0] || inClouds[1]) {
-				if (activationPoint == 0f) {
-					activationPoint = Balloon.transform.position.y - 0.02f; // set activation point
+				if (activationPoint == 0) {
+					activationPoint = TransformCheck.position.y - 0.02f; // set activation point
+					maxPoint = activationPoint + cloudsHeight; // set maximal point
 				}
-				float a = Balloon.transform.position.y - activationPoint;
+				float a = TransformCheck.position.y - activationPoint;
 				float b = maxPoint - activationPoint;
 				// restrain values of a
 				float val = Mathf.Min (b, Mathf.Max (a, 0)) / b;
-				//sprite.color = new Color (1f, 1f, 1f - val);
 
-				balloonScript.rotate (val);
+				BalloonScript.AngleControlScript.rotate (val);
 
 
 				if (val == 1) {
 					stopGame ();
+					BalloonScript.breakRope ();
 				}
 			} else {
-				balloonScript.rotate (0);
-				//sprite.color = Color.white;
+				BalloonScript.AngleControlScript.rotate (0);
 			}
 
+		}
+
+		if (timePassed >= 0 && timePassed < slowDownDuration) {
+			timePassed += Time.deltaTime;
+			Scroll.speedModifier = Mathf.Max (0, 1 - timePassed / slowDownDuration);
+		} else if (timePassed >= slowDownDuration) {
+			GameOverPanel.SetActive (true);
+			BalloonScript.freezeObject (true);
 		}
 	}
 
 	public void stopGame () {
 		gameEnded = true;
 		pauseGame ();
-		GameOverPanel.SetActive (true);
+	}
+
+	public void hitGround () {
+		if (timePassed == -1) {
+			timePassed = 0;
+			BalloonScript.hardLanding (slowDownDuration);
+		}
 	}
 
 	public void pauseGame () {
 		gamePaused = true;
-		balloonScript.freezeObject (true);
+		if (!gameEnded) {
+			Scroll.speedModifier = 0;
+		}
 	}
 
 	public void beginGame () {
@@ -87,16 +108,14 @@ public class GameControl : MonoBehaviour {
 
 	public void resumeGame () {
 		gamePaused = false;
-		balloonScript.freezeObject (false);
+		BalloonScript.freezeObject (false);
+		Scroll.speedModifier = 1;
 	}
 
 	public void restartGame () {
-		gameEnded = false;
-		gameStarted = false;
-
-		GameOverPanel.SetActive (false);
-		TapText.gameObject.SetActive (true);
-		balloonScript.bringItBack ();
+		//instance = null;
+		//Scroll.speedModifier = 0;
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
 
 }

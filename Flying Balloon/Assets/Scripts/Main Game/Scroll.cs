@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class Scroll : MonoBehaviour {
 
+	public static float speedModifier = 0; // used for global slowdown
+
+	public bool affectedBySpeedModifier = true;
 	public float scrollCoefficient = 1; // used for parallax effect
+
 	private Rigidbody2D rbGround;
 
-	// Use this for initialization
 	void Start () {
 		rbGround = GetComponent<Rigidbody2D> ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-		if (!GameControl.instance.gamePaused) {
-			rbGround.velocity = new Vector2 (GameControl.instance.scrollSpeed * scrollCoefficient, 0);
-		} else {
-			rbGround.velocity = new Vector2 (0, 0);
+		Vector2 newVelocity = new Vector2 (GameControl.instance.scrollSpeed * scrollCoefficient, 0);
+		if (affectedBySpeedModifier) {
+			newVelocity *= speedModifier;
 		}
+		rbGround.velocity = newVelocity;
 	}
 }

@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Ground
+  - Balloon Top
+  - Balloon Bottom
+  - Fuel Tank
   layers:
   - Default
   - TransparentFX
@@ -53,4 +57,7 @@ TagManager:
     locked: 0
   - name: Clouds Top
     uniqueID: 3696705533
+    locked: 0
+  - name: Explosions
+    uniqueID: 2761487505
     locked: 0

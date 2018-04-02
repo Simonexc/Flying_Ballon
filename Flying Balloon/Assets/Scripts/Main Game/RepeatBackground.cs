@@ -6,12 +6,10 @@ public class RepeatBackground : MonoBehaviour {
 
 	private float groundLength;
 
-	// Use this for initialization
 	void Start () {
 		groundLength = GetComponent<Renderer> ().bounds.size.x;
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (transform.position.x < -groundLength) {
 			RepositionBackground ();
@@ -19,8 +17,13 @@ public class RepeatBackground : MonoBehaviour {
 	}
 
 	private void RepositionBackground () {
-		Vector2 newPosition = new Vector2 (transform.position.x + groundLength * 2f, transform.position.y);
-		transform.position = newPosition;
+		GameObject[] grounds = GameObject.FindGameObjectsWithTag ("Ground");
+		float furthestPosition = -100;
+		foreach (GameObject ground in grounds) {
+			furthestPosition = Mathf.Max (furthestPosition, ground.transform.position.x);
+		}
+
+		transform.position = new Vector2 (furthestPosition + groundLength - 0.5f, transform.position.y);
 	}
 
 }
