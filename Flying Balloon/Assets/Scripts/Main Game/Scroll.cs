@@ -5,19 +5,16 @@ using UnityEngine;
 public class Scroll : MonoBehaviour {
 
 	public float scrollCoefficient = 1; // used for parallax effect
+
 	private Rigidbody2D rbGround;
 
-	// Use this for initialization
 	void Start () {
 		rbGround = GetComponent<Rigidbody2D> ();
+		updateSpeed ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (!GameControl.instance.gamePaused) {
-			rbGround.velocity = new Vector2 (GameControl.instance.scrollSpeed * scrollCoefficient, 0);
-		} else {
-			rbGround.velocity = new Vector2 (0, 0);
-		}
+
+	public void updateSpeed (float speedModifier = 1) {
+		Vector2 newVelocity = new Vector2 (GameControl.instance.scrollSpeed * scrollCoefficient * speedModifier, 0);
+		rbGround.velocity = newVelocity;
 	}
 }

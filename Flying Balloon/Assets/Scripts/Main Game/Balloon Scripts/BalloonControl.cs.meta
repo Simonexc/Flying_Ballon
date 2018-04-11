@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 9d65efdc370f39441bb707d62ea2e0da
+timeCreated: 1521394910
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - rbBalloon: {instanceID: 0}
+  - rbBasket: {instanceID: 0}
+  - fixedConnection: {instanceID: 0}
+  - distanceConnection: {instanceID: 0}
+  - ExplosionPrefab: {fileID: 1183353876457890, guid: 56e5545d4fba09a44a7c6e913364f245,
+      type: 2}
+  - AngleControlScript: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
