@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CheckCollisions : MonoBehaviour {
 
-	void OnCollisionEnter2D (Collision2D collision) {
-		if (collision.gameObject.CompareTag ("Balloon Bottom")) {
+	void OnCollisionEnter2D (Collision2D collision) { // if some object hit the ground
+		if (collision.gameObject.CompareTag ("Balloon Bottom")) { // if it was the balloon
+			// end the game and announce the hit
 			GameControl.instance.stopGame ();
 			GameControl.instance.hitGround ();
 		}
