@@ -9,6 +9,8 @@ TagManager:
   - Balloon Top
   - Balloon Bottom
   - Fuel Tank
+  - Background Sky
+  - Cloud
   layers:
   - Default
   - TransparentFX
@@ -46,14 +48,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Ground
-    uniqueID: 1031337079
-    locked: 0
   - name: Enemies
     uniqueID: 2582757011
     locked: 0
+  - name: Clouds Background
+    uniqueID: 3386066693
+    locked: 0
   - name: Player
     uniqueID: 963720153
+    locked: 0
+  - name: Ground
+    uniqueID: 1031337079
     locked: 0
   - name: Clouds Top
     uniqueID: 3696705533

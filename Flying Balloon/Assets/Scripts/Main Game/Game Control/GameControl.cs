@@ -39,6 +39,7 @@ public class GameControl : MonoBehaviour {
 	private Transform TransformCheck; // reference to the balloon's transform
 
 	private GameObject[] Grounds;
+	private GameObject[] BackgroundSkies;
 
 	void Awake () { // called before Start
 		instance = this;
@@ -53,6 +54,7 @@ public class GameControl : MonoBehaviour {
 		TransformCheck = BalloonScript.rbBalloon.gameObject.transform;
 
 		Grounds = GameObject.FindGameObjectsWithTag ("Ground"); // get all grounds
+		BackgroundSkies = GameObject.FindGameObjectsWithTag ("Background Sky"); // get all background skies
 	}
 
 	void Update () {
@@ -108,6 +110,9 @@ public class GameControl : MonoBehaviour {
 	private void updateGrounds (float speedModifier) { // updates the velocity of all grounds
 		foreach (GameObject Ground in Grounds) {
 			Ground.GetComponent<Scroll> ().updateSpeed (speedModifier);
+		}
+		foreach (GameObject BackgroundSky in BackgroundSkies) {
+			BackgroundSky.GetComponent<Scroll> ().updateSpeed (speedModifier);
 		}
 	}
 
