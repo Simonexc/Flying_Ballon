@@ -54,6 +54,9 @@ TagManager:
   - name: Clouds Background
     uniqueID: 3386066693
     locked: 0
+  - name: Trees
+    uniqueID: 2337520697
+    locked: 0
   - name: Player
     uniqueID: 963720153
     locked: 0
