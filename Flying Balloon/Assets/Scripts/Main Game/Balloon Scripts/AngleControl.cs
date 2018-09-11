@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class AngleControl : MonoBehaviour {
 
-	public float angleRange = 10; // how much the balloon can wiggle
-
+	public Vector2 angleRange = new Vector2(5, 20); // how much the balloon can wiggle
 	public Vector2 angularVelocityBase = new Vector2(10, 15); // minimal velocity range
 	public Vector2 angularVelocityIncrease = new Vector2(20, 30); // maximal velocity range
 
@@ -39,25 +38,26 @@ public class AngleControl : MonoBehaviour {
 			}
 
 		} else { // if it is in 'turbulence region'
+			//Debug.Log(rbBasket.angularVelocity);
 			if (rbBasket.angularVelocity < 0.5f * targetSpeed) // if "angularVelocity" droped lower than half of "targetSpeed"
 				rbBasket.angularVelocity = targetSpeed; // set "angularVelocity" back to "targetSpeed"
 			
 			if (Mathf.Sign (targetAngle) * getAngle (transBasket.eulerAngles.z) >= Mathf.Abs (targetAngle)) { // if the balloon's swing angle is bigger than "targetAngle"
 				// set new "targetAngle" and new "angularVelocity"
-				targetAngle = -Mathf.Sign (targetAngle) * Random.Range (0, angleRange * coefficient);
+				targetAngle = -Mathf.Sign (targetAngle) * Random.Range (angleRange.x * coefficient, angleRange.y * coefficient);
 				changeAngularVelocity (targetAngle, coefficient);
 			}
-			/*
-			if (getAngle (transBasket.eulerAngles.z) == 0 && rbBasket.angularVelocity == 0) { 
-				targetAngle = Random.Range (-angleRange * coefficient, angleRange * coefficient);
+
+			if (targetAngle == 0) { 
+				targetAngle = randomSign () * Random.Range (angleRange.x * coefficient, angleRange.y * coefficient);
 				changeAngularVelocity (targetAngle, coefficient);
 			}
-			*/
+
 		}
 	}
 
 	private void changeAngularVelocity (float targetAngle, float coefficient) { // set new angular velocity of the balloon
-		// formulat: direction of movement(-1, 0 or 1) * random value from[ base angular velocity(min) * added angular velocity(min) * "coefficient" ; base angular velocity(max) * added angular velocity(max) * "coefficient" ]
+		// formula: direction of movement(-1, 0 or 1) * random value from[ base angular velocity(min) * added angular velocity(min) * "coefficient" ; base angular velocity(max) * added angular velocity(max) * "coefficient" ]
 		targetSpeed = Mathf.Sign (targetAngle - getAngle (transBasket.eulerAngles.z)) * 
 			Random.Range (angularVelocityBase.x + angularVelocityIncrease.x*coefficient, angularVelocityBase.y + angularVelocityIncrease.y*coefficient);
 		rbBasket.angularVelocity = targetSpeed;
@@ -69,6 +69,10 @@ public class AngleControl : MonoBehaviour {
 		} else {
 			return angle - 360;
 		}
+	}
+
+	public static int randomSign () { // returns either 1 or -1 at random
+		return Random.value < 0.5? 1 : -1;
 	}
 
 }

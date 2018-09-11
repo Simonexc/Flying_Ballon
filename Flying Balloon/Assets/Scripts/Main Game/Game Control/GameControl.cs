@@ -40,6 +40,7 @@ public class GameControl : MonoBehaviour {
 
 	private GameObject[] Grounds;
 	private GameObject[] BackgroundSkies;
+	private GameObject[] Clouds;
 
 	void Awake () { // called before Start
 		instance = this;
@@ -55,6 +56,7 @@ public class GameControl : MonoBehaviour {
 
 		Grounds = GameObject.FindGameObjectsWithTag ("Ground"); // get all grounds
 		BackgroundSkies = GameObject.FindGameObjectsWithTag ("Background Sky"); // get all background skies
+		Clouds = GameObject.FindGameObjectsWithTag ("Cloud"); // get all clouds
 	}
 
 	void Update () {
@@ -113,6 +115,9 @@ public class GameControl : MonoBehaviour {
 		}
 		foreach (GameObject BackgroundSky in BackgroundSkies) {
 			BackgroundSky.GetComponent<Scroll> ().updateSpeed (speedModifier);
+		}
+		foreach (GameObject Cloud in Clouds) {
+			Cloud.GetComponent<Scroll> ().updateSpeed (speedModifier);
 		}
 	}
 

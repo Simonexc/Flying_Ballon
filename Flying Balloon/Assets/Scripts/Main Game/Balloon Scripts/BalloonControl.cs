@@ -15,6 +15,9 @@ public class BalloonControl : MonoBehaviour {
 	public Rigidbody2D rbGround; // reference to rigidbody of a ground object
 
 	public GameObject ExplosionPrefab; // reference to prefab of the explosion
+	public GameObject GrassFlamePrefab; // reference to prefab of the grass flame
+	public ParticleSystem Flame1; // reference to the flames
+	public ParticleSystem Flame2;
 
 	[HideInInspector]
 	public AngleControl AngleControlScript; // reference to the AngleControl script - it simulates turbulence while the balloon is in clouds
@@ -33,14 +36,20 @@ public class BalloonControl : MonoBehaviour {
 	}
 
 	void Update () {
-		
+		var FlameMain1 = Flame1.main;
+		var FlameMain2 = Flame2.main;
+		FlameMain1.startSpeed = 0.2f;
+		FlameMain2.startSpeed = 0.2f;
 		if (!GameControl.instance.gameEnded) { // if game isn't ended
 			if (Input.GetButton ("Fire1")) { // if mouse button is being hold(or screen is being touched when on mobile)
 				if (!GameControl.instance.gameStarted) { // if game hasn't begun yet but above is true
 					GameControl.instance.beginGame ();
 				}
-				if (!GameControl.instance.gamePaused) // if game isn't being paused
+				if (!GameControl.instance.gamePaused) { // if game isn't being paused
+					FlameMain1.startSpeed = 0.4f;
+					FlameMain2.startSpeed = 0.4f;
 					rbBalloon.AddForce (Vector2.up * thrust * Time.deltaTime); // apply force(upward * thrust * time it took to render this frame)
+				}
 			}
 			if (!GameControl.instance.gamePaused) // if game isn't being paused
 				rbBalloon.AddForce (Vector2.up * antigravity * Time.deltaTime); // apply drag
@@ -117,7 +126,9 @@ public class BalloonControl : MonoBehaviour {
 			enemy.GetComponent<Scroll> ().updateSpeed ();
 		}
 
-		Instantiate (ExplosionPrefab, rbBasket.gameObject.transform.position, Quaternion.Euler (-90, 0, 0)); // instantiate explosion
+		Vector3 pos = new Vector3(rbBasket.gameObject.transform.position.x, -3.8f, -3);
+		Instantiate (ExplosionPrefab, pos, Quaternion.Euler (-90, 0, 0)); // instantiate explosion
+		Instantiate (GrassFlamePrefab, pos, Quaternion.Euler (0, 0, 0)); // instantiate grass flame
 		Invoke ("disactivate", Time.deltaTime); // deactivate the balloon
 	}
 
