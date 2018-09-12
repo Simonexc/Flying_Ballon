@@ -126,9 +126,14 @@ public class BalloonControl : MonoBehaviour {
 			enemy.GetComponent<Scroll> ().updateSpeed ();
 		}
 
-		Vector3 pos = new Vector3(rbBasket.gameObject.transform.position.x, -3.8f, -3);
+		Vector3 pos = rbBasket.gameObject.transform.position;
+		pos.z = -3;
+		if (rbBasket.gameObject.transform.position.y < -3.6f) { // if explosion occured close to the ground
+			pos.y = -3.8f;
+			Instantiate (GrassFlamePrefab, pos, Quaternion.Euler (0, 0, 0)); // instantiate grass flame
+		}
 		Instantiate (ExplosionPrefab, pos, Quaternion.Euler (-90, 0, 0)); // instantiate explosion
-		Instantiate (GrassFlamePrefab, pos, Quaternion.Euler (0, 0, 0)); // instantiate grass flame
+			
 		Invoke ("disactivate", Time.deltaTime); // deactivate the balloon
 	}
 

@@ -23,7 +23,7 @@ public class SpawnEnemies : MonoBehaviour {
 			timeLeft -= Time.deltaTime; // decrease "timeLeft" by time it took to render the frame
 
 			if (timeLeft <= 0) { // if enough time has passed
-				Instantiate (EnemyPrefab, new Vector3 (10f, Random.Range (spawnRange.x, spawnRange.y)), Quaternion.identity); // spawn an enemy
+				Instantiate (EnemyPrefab, new Vector3 (14f, Random.Range (spawnRange.x, spawnRange.y)), Quaternion.identity); // spawn an enemy
 				timeLeft = Random.Range (spawnRate.x, spawnRate.y);
 			}
 		}
