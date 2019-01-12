@@ -11,6 +11,16 @@ TagManager:
   - Fuel Tank
   - Background Sky
   - Cloud
+  - Grass Blade 1
+  - Grass Blade 2
+  - Tree 1
+  - Tree 2
+  - Trees
+  - Background
+  - Trees Background
+  - Background Tree 1
+  - Background Tree 2
+  - UI Bar
   layers:
   - Default
   - TransparentFX
@@ -48,20 +58,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Enemies
-    uniqueID: 2582757011
-    locked: 0
   - name: Clouds Background
     uniqueID: 3386066693
     locked: 0
   - name: Trees
-    uniqueID: 2337520697
+    uniqueID: 2368149119
+    locked: 0
+  - name: Enemies
+    uniqueID: 2582757011
     locked: 0
   - name: Player
     uniqueID: 963720153
     locked: 0
   - name: Ground
     uniqueID: 1031337079
+    locked: 0
+  - name: Grass
+    uniqueID: 349605875
     locked: 0
   - name: Clouds Top
     uniqueID: 3696705533
